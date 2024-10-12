@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %} User Page {% endblock %}
+
+{% block content %}
+
+<h1>Hello {{ user.first_name }} {{ user.last_name }}!</h1>
+
+<ul>
+    <li><strong>Username:</strong> {{ user.username }}</li>
+    <li><strong>Email:</strong> {{ user.email }}</li>
+    <li><strong>First Name:</strong> {{ user.first_name }}</li>
+    <li><strong>Last Name:</strong> {{ user.last_name }}</li>
+</ul>
+
+<h2>Feedback</h2>
+
+<ul>
+
+    {% for feedback in user.feedback %}
+      <li>
+        {{ feedback.title }}
+        <p>{{ feedback.content }}</p>
+      </li>
+
+      <form>
+        {{form.hidden_tag()}}
+        <button 
+                formmethod="GET"
+                formaction="/feedback/{{ feedback.id }}/edit">
+          Edit
+        </button>
+        <button 
+                formmethod="POST"
+                formaction="/feedback/{{ feedback.id }}/delete">
+          Delete
+        </button>
+      </form>
+    {% endfor %}
+
+</ul>
+
+<p>
+    <a href="/user/{{ user.username }}/feedback/add">
+      Add feedback
+    </a>
+  </p>
+
+
+<a href="/logout">Logout</a>
+
+<form>
+    <button formmethod="POST"
+            formaction="/user/{{ user.username }}/delete">
+        DELETE ACCOUNT
+    </button>
+
+</form>
+
+{% endblock %}
